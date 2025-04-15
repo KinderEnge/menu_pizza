@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:pizza_menu/pizza_data.dart';
 
 class MenuItem extends StatelessWidget {
-  const MenuItem({super.key});
+  final Pizza pizza;
+  const MenuItem({super.key, required this.pizza});
 
   @override
   Widget build(BuildContext context) {
@@ -11,10 +13,15 @@ class MenuItem extends StatelessWidget {
               padding: const EdgeInsets.all(12.0),
               child: Row(
                 children: [
-                  Image.asset(
-                    'images/focaccia.jpg',
-                    width: 100,
-                    height: 100,
+                  ColorFiltered(
+                    colorFilter: pizza.soldOut ?  
+                    ColorFilter.mode(Colors.grey, BlendMode.saturation):
+                    ColorFilter.mode(Colors.transparent, BlendMode.multiply),
+                    child: Image.asset(
+                      'images/${pizza.photoName}',
+                      width: 100,
+                      height: 100,
+                    ),
                   ),
                   SizedBox(
                     width: 16,
@@ -24,7 +31,7 @@ class MenuItem extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Focaccia",
+                          pizza.name,
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -32,7 +39,7 @@ class MenuItem extends StatelessWidget {
                         ),
                         SizedBox(height: 6),
                         Text(
-                          "Bread with italian olive oil and rosemary",
+                          pizza.ingredients,
                           style: TextStyle(
                             fontSize: 16,
                             color: Colors.black87,
@@ -40,7 +47,7 @@ class MenuItem extends StatelessWidget {
                         ),
                         SizedBox(height: 6),
                         Text(
-                          "\$ 6",
+                          pizza.soldOut ? "Sold Out":"\$${pizza.price}",
                           style: TextStyle(color: Colors.black45),
                         ),
                       ],
